@@ -27,7 +27,7 @@ def tryrender(content, request=None):
 class EntryFeed(Feed):
     title = getattr(settings, 'BLOG_TITLE', 'Unnamed')
     link = '/blog/'
-    description = getattr(settings, 'BLOG_DESCRIPTION', 'Ahoj')
+    description = getattr(settings, 'BLOG_DESCRIPTION', '')
 
     def items(self):
         if hasattr(Entry, 'translation_of'):
