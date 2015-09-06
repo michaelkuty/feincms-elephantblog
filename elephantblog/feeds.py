@@ -17,7 +17,7 @@ if not (
         ' settings.py. Standard values used for the Feed')
 
 
-def tryrender(content, request=None):
+def tryrender(content, request):
     try:
         return content.render(**{'request': request})
     except TypeError:  # Required request argument or something else?
