@@ -17,9 +17,9 @@ if not (
         ' settings.py. Standard values used for the Feed')
 
 
-def tryrender(content):
+def tryrender(content, request):
     try:
-        return content.render()
+        return content.render(**{'request': request})
     except TypeError:  # Required request argument or something else?
         return ''
 
@@ -40,8 +40,13 @@ class EntryFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        content = ''.join(tryrender(c) for c in item.content.main)
+        content = ''.join(tryrender(c, request=self.request)
+                          for c in item.content.main)
         return content
 
     def item_pubdate(self, item):
         return item.published_on
+
+    def __call__(self, request, *args, **kwargs):
+        self.request = request
+        return super(EntryFeed, self).__call__(request, *args, **kwargs)
